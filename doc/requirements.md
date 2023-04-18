@@ -8,6 +8,8 @@
   - If the player has a skill levels higher than the required levels, the chance of being accepted is 100%. If the player has a skill levels lower than the required level, the chance of being accepted is 0%. If the player has a skill level equal to the required level, the chance of being accepted is 50%.
 * As soon as the player is accepted for a job, the player's skill levels increase each month.
 * Every month the player can select a job to apply or skip this month.
+* Player starts at the age of 21 and can work until the age of 65.
+* When the player reaches the age of 65, the game is over.
 
 ### Job
 Every job has 
@@ -58,26 +60,35 @@ The game state is displayed as a player CV. The CV includes:
 * The list of jobs player had in the past
 
 ## UI
-The game is a Telegram bot. The bot has the following commands:
-* /start - start the game
-* /help - display help
-* /cv - display the game state
-* /jobs - display the list of available jobs
-* /apply - apply for a job
-* /skip - skip this month
+
+The app should have the following pages:
+* The welcome page with the welcome message
+* The CV game page with the player CV.
+* The job list page with the list of available jobs.
+* The job details page with Apply button.
+  - If the player is accepted, it should display a message that the player is accepted.
+  - If the player is not accepted, it should display a message that the player is not accepted.
+* The game over page with the message that the game is over and the current user CV. The only options on this page are:
+  - Start a new game
+
+Every page displays
+  - current month
+  - player age
+  - links to the CV page and the job list page
+  - a link to skip this month
 
 ## Technical details
 
 ### Game state
-The game state is stored in Dynamo DB table. The key is the Telegram user ID. The value is a JSON document with the following structure:
+The game state is stored in the browser local storage.
+It has the following structure:
 * The current calendar date
 * The player's skill levels
 * The list of jobs player had in the past
 
-`pynamodb` Python library is used to access Dynamo DB.
 
 ### Jobs storage
-The list of all jobs in the game is stored in a YAML file. The file is parsed and stored in memory. The file is reloaded every time the game is started.
+The list of all jobs in the game is stored in a YAML file in the source code. The file is parsed and stored in memory. The file is reloaded every time the game is started.
 Each job has the following properties:
 * The ID of the job (e.g. "google-python-developer")
 * The name of the company (e.g. "Google")
@@ -97,57 +108,5 @@ Each skill has the following properties:
 
 ### Application
 
-The application is a Python Flask application.
+The application is an Angular application.
 
-#### Directory structure
-
-Here's a possible directory structure for the app:
-
-```
-app/
-├── bot/
-│   ├── __init__.py
-│   ├── bot.py
-│   ├── commands.py
-│   └── handlers.py
-├── data/
-│   ├── jobs.yaml
-│   ├── skills.yaml
-│   └── ...
-├── models/
-│   ├── __init__.py
-│   └── player.py
-├── services/
-│   ├── __init__.py
-│   ├── job_service.py
-│   ├── skill_service.py
-│   └── player_service.py
-├── utils/
-│   ├── __init__.py
-│   ├── database.py
-│   └── parser.py
-├── __init__.py
-├── config.py
-├── requirements.txt
-└── app.py
-```
-
-- `bot/`: Contains modules related to the Telegram bot.
-  - `bot.py`: Initializes the bot and starts the polling process.
-  - `commands.py`: Defines the bot commands and their callbacks.
-  - `handlers.py`: Contains the handlers for the bot's messages.
-- `data/`: Contains YAML files with data for the game.
-  - `jobs.yaml`: Contains the list of all jobs in the game.
-  - `skills.yaml`: Contains the list of all skills in the game.
-- `models/`: Contains the data models used by the app.
-  - `player.py`: Defines the `Player` model.
-- `services/`: Contains the business logic services of the app.
-  - `job_service.py`: Defines the `JobService` class.
-  - `skill_service.py`: Defines the `SkillService` class.
-  - `player_service.py`: Defines the `PlayerService` class.
-- `utils/`: Contains utility modules.
-  - `database.py`: Defines the `Database` class for interacting with DynamoDB.
-  - `parser.py`: Defines functions for parsing the data YAML files.
-- `config.py`: Defines the app configuration variables.
-- `requirements.txt`: Contains the app dependencies.
-- `app.py`: Runs the Flask app.
