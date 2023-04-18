@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { CvViewComponent } from './components/cv-view/cv-view.component';
+import { CvViewComponent } from './components/game-state/game-state.component';
 import { JobDetailsComponent } from './components/job-details/job-details.component';
 // import { JobListComponent } from './components/job-list/job-list.component';
 // import { NavbarComponent } from './components/navbar/navbar.component';

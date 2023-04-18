@@ -1,55 +1,33 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import * as yaml from 'js-yaml';
-import { HttpClient } from '@angular/common/http';
 import { Job } from '../models/job.model';
-import { Skill } from '../models/skill.model';
+import { PlayerSkill } from '../models/player-skill.model';
+import jobsData from '../../assets/data/job-list.json';
 
 @Injectable({
   providedIn: 'root'
 })
 export class JobService {
-  private jobs: Job[];
-  private skills: Skill[];
+  private jobs: Job[] = jobsData;
 
-  constructor(private http: HttpClient) {
-    this.loadJobs();
-    this.jobs = [];
-    this.skills = [];
+  getAvailableJobs(playerSkills: PlayerSkill[]): Job[] {
+    return this.jobs.filter((job) => this.calculateAcceptanceChance(job, playerSkills) > 0.05);
   }
 
-  private loadJobs(): void {
-    this.http.get<string>('assets/data/jobs.yaml').subscribe(data => {
-      this.jobs = yaml.load(data);
-    });
-  }
+  calculateAcceptanceChance(job: Job, playerSkills: PlayerSkill[]): number {
+    let chance = job.basicProbability;
 
-  getJobs(skillLevels: Skill[]): Observable<Job[]> {
-    const filteredJobs = this.jobs.filter(job => {
-      return job.requiredSkills.every(requiredSkill => {
-        const skill = skillLevels.find(s => s.id === requiredSkill.id);
-        return skill && skill.level >= requiredSkill.level;
-      });
-    });
-    return of(filteredJobs);
-  }
+    job.requiredSkills.forEach((requiredSkill) => {
+      const playerSkill = playerSkills.find((skill) => skill.technologyId === requiredSkill.technologyId);
 
-  getJobById(jobId: string): Observable<Job> {
-    const job = this.jobs.find(j => j.id === jobId);
-    // Raise an exception if the job is not found
-    if (!job) {
-      throw new Error(`Job with id ${jobId} not found`);
-    }
-    return of(job);
-  }
-
-  increaseSkills(skillIds: string[]): void {
-    skillIds.forEach(skillId => {
-      const skill = this.skills.find(s => s.id === skillId);
-      if (skill) {
-        skill.level++;
+      if (playerSkill) {
+        const skillDifference = playerSkill.monthsExperience - requiredSkill.months;
+        const multiplier = skillDifference >= 0 ? 1.05 * skillDifference / requiredSkill.priority : 0.9 * Math.abs(skillDifference) * requiredSkill.priority;
+        chance *= multiplier;
+      } else {
+        chance *= 0.9 * requiredSkill.months * requiredSkill.priority;
       }
     });
+
+    return Math.min(Math.max(chance, 0), 1);
   }
 }

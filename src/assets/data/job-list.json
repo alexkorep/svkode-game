@@ -1,0 +1,68 @@
+[
+  {
+    "title": "Python Developer",
+    "company": "Google",
+    "description": "Develop backend systems and APIs using Python.",
+    "basicProbability": 0.6,
+    "requiredSkills": [
+      {
+        "technologyId": "python",
+        "months": 24,
+        "priority": 1
+      },
+      {
+        "technologyId": "django",
+        "months": 12,
+        "priority": 2
+      }
+    ],
+    "skillImprovements": [
+      "python",
+      "django"
+    ]
+  },
+  {
+    "title": "Frontend Developer",
+    "company": "Facebook",
+    "description": "Create user interfaces using modern web technologies.",
+    "basicProbability": 0.5,
+    "requiredSkills": [
+      {
+        "technologyId": "javascript",
+        "months": 18,
+        "priority": 1
+      },
+      {
+        "technologyId": "react",
+        "months": 12,
+        "priority": 2
+      }
+    ],
+    "skillImprovements": [
+      "javascript",
+      "react"
+    ]
+  },
+  {
+    "title": "Data Scientist",
+    "company": "Amazon",
+    "description": "Analyze data and develop machine learning models.",
+    "basicProbability": 0.7,
+    "requiredSkills": [
+      {
+        "technologyId": "python",
+        "months": 24,
+        "priority": 1
+      },
+      {
+        "technologyId": "machine_learning",
+        "months": 18,
+        "priority": 2
+      }
+    ],
+    "skillImprovements": [
+      "python",
+      "machine_learning"
+    ]
+  }
+]

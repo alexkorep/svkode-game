@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CvViewComponent } from './cv-view.component';
+import { CvViewComponent } from './game-state.component';
 
 describe('CvViewComponent', () => {
   let component: CvViewComponent;

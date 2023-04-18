@@ -1,112 +1,179 @@
 ## Game Mechanics
 
-* The game state include current calendar date, player's skill levels, and the list of available jobs
-* The player skill levels is a set of technologies. Every technology has a name and a level: number of months user has been working with this technology
-* Player selects a job from the list of available jobs and applies for it
-* Every job has a list of required skills with the minimum level
-* The chance of being accepted for a job is based on the player's skill levels. 
-  - If the player has a skill levels higher than the required levels, the chance of being accepted is 100%. If the player has a skill levels lower than the required level, the chance of being accepted is 0%. If the player has a skill level equal to the required level, the chance of being accepted is 50%.
-* As soon as the player is accepted for a job, the player's skill levels increase each month.
-* Every month the player can select a job to apply or skip this month.
-* Player starts at the age of 21 and can work until the age of 65.
-* When the player reaches the age of 65, the game is over.
+### Instances
 
-### Job
-Every job has 
-* a name
-* a description, what user does in this job, what skills will be increased during this job
-* a list of required skills with the minimum level
-* a list of skills that will be increased if the player is accepted for this job
-* A basic probablility of being accepted for this job
+#### Technology
 
-### Job Required skills
-Each required skill has the following properties:
-* The ID of the skill (e.g. "python")
-* The minimum level of the skill
-* Priority (0..1)
+Every technology has an ID (e.g. "python") and a name (e.g. "Python")
 
-### Applying for a job, chance of being accepted
+#### Player skill
+
+The player skill contains the technology ID and the number of months the player has been working with this technology.
+
+#### Required skill
+
+The required skill contains the technology ID and the minimum number of months the player has to work with this technology to be accepted for the job.
+
+#### Job
+
+Every job has
+
+- a title, e.g. "Python Developer"
+- a company, e.g. "Google"
+- a text description, what user does in this job, what skills will be increased during this job
+- a basic probablility of being accepted for this job, a number between 0 and 1
+- a list of required skills
+- a list of technologies that will increase user's skills if the player is accepted for this job. Each month working for this job, the player's skill for this technology increases by 1 month.
+
+#### Game
+
+Game has:
+
+- player skills - a list of player skills
+- current calendar date
+- list of available jobs
+- player job history. The last job is the current job.
+
+### Use cases
+
+#### Player starts a new game
+
+- The game is initialized with the current calendar date set to 1st of January 1984.
+- A welcome screen is displayed.
+
+From the webcome screen, the player can display the list of available jobs or display the game state.
+
+#### Player skips a month
+
+Game state is updated as follows:
+
+- The current calendar date is increased by 1 month.
+- The player skills increase based on the current job.
+
+#### Player displays a list of available jobs
+
+- The list of available jobs is generated from the pull of all jobs available in the game, based on the player's skill levels. The list of available jobs is generated as follows:
+  - For every job in the game, the chance of being accepted is calculated as described below
+  - The list of available jobs is generated from the list of all jobs in the game, where the chance of being accepted is greater than 0.05
+  - The jobs that are in the player's job history are not displayed in the list of available jobs
+- Player can apply for a job or display the job details.
+
+### Displaying job details
+
+The job details page contains:
+
+- the title
+- the company
+- the description
+- the probablility of being accepted for this job
+- the list of required skills
+
+User can apply for this job or go back to the list of available jobs.
+
+#### Player applies for a job
+
+- Player selects a job from the list of available jobs and applies for it
+- The chance of being accepted is calculated as described below
+- If the player is accepted for the job:
+  - The job is added to the player's job history
+  - Congratulations message is displayed
+  - Game skips to the next month. The player's skill levels increase based on the new job.
+- If the player is not accepted for the job:
+  - the player skips this month. The player's skill levels increase based on the current job.
+
+##### Chance of being accepted for a job
+
 If a player applies for a job, the chance of being accepted is calculated as follows:
-* The chance of being accepted is the basic probability of being accepted for this job.
-* For every skill that the player has a level lower than the required level, the chance of being accepted is multiplied by 0.9 multiplied by number of missing months multiplied by priority
-* For every skill that the player has a level higher than the required level, the chance of being accepted is multiplied by 1.05 multiplied by number of extra months divided by priority
 
-### List of available jobs
-The list of available jobs is generated from the pull of all jobs available in the game, based on the player's skill levels. The list of available jobs is generated as follows:
-* For every job in the game, the chance of being accepted is calculated as described above
-* The list of available jobs is generated from the list of all jobs in the game, where the chance of being accepted is greater than 0.05
+- The chance of being accepted is the basic probability of being accepted for this job.
+- For every skill that the player has a level lower than the required level, the chance of being accepted is multiplied by 0.9 multiplied by number of missing months multiplied by priority
+- For every skill that the player has a level higher than the required level, the chance of being accepted is multiplied by 1.05 multiplied by number of extra months divided by priority
 
-### Displaying a job
-The job is displayed as follows:
-* The job name
-* The job description
-* The list of required skills with the minimum level. For each skill, display:
-  - The skill name
-  - The minimum level (number of months required)
-  - The priority
-* The chance of being accepted for this job
+#### Displaying the game state
 
-### Applying for a job
-The player selects a job from the list of available jobs and applies for it. The chance of being accepted is calculated as described above. If the player is accepted for the job, the player's skill levels increase each month. If the player is not accepted for the job, the player skips this month.
-
-### Skipping a month
-The player skips this month. The player's skill levels increase based on the current job.
-If the player has no current job, the player's skill levels do not increase.
-
-### Displaying the game state
 The game state is displayed as a player CV. The CV includes:
-* The current calendar date
-* The player's skill levels
-* The list of jobs player had in the past
 
-## UI
+- The current calendar date
+- The player skill levels
+- The list of jobs player had in the past
+- The player age
 
-The app should have the following pages:
-* The welcome page with the welcome message
-* The CV game page with the player CV.
-* The job list page with the list of available jobs.
-* The job details page with Apply button.
-  - If the player is accepted, it should display a message that the player is accepted.
-  - If the player is not accepted, it should display a message that the player is not accepted.
-* The game over page with the message that the game is over and the current user CV. The only options on this page are:
-  - Start a new game
+#### Game over
 
-Every page displays
-  - current month
-  - player age
-  - links to the CV page and the job list page
-  - a link to skip this month
+- Player starts at the age of 21 and can work until the age of 65.
+- When the player reaches the age of 65, the game is over.
+- Start date of the game is 1st of January 1984.
 
 ## Technical details
 
 ### Game state
+
 The game state is stored in the browser local storage.
-It has the following structure:
-* The current calendar date
-* The player's skill levels
-* The list of jobs player had in the past
 
+### Jobs and skills storage
 
-### Jobs storage
-The list of all jobs in the game is stored in a YAML file in the source code. The file is parsed and stored in memory. The file is reloaded every time the game is started.
-Each job has the following properties:
-* The ID of the job (e.g. "google-python-developer")
-* The name of the company (e.g. "Google")
-* The name of the job (e.g. "Python Developer")
-* The job description, what the person has to do in this job.
-* The company description, what company is doing.
-* The list of required skills with the minimum level. For each skill:
-  - The skill ID
-  - The minimum level (number of months required)
-
-### Skills storage
-The list of all skills in the game is stored in a YAML file. The file is parsed and stored in memory. The file is reloaded every time the game is started.
-Each skill has the following properties:
-* The ID of the skill (e.g. "python")
-* The name of the skill (e.g. "Python")
-* The description of the skill (e.g. "Python is a programming language")
+The list of all jobs and all skills in the game is stored in a JSON files in the source code. The files are loaded with `json-loader` npm package.
 
 ### Application
 
 The application is an Angular application.
 
+### Storybook
+
+The UI components are documented with Storybook.
+
+### Directory structure
+
+```
+my-app/
+│
+├── src/
+│   ├── app/
+│   │   ├── components/
+│   │   │   ├── job-list/
+│   │   │   ├── job-details/
+│   │   │   ├── game-state/
+│   │   │   ├── welcome-screen/
+│   │   │   └── shared/
+│   │   ├── models/
+│   │   │   ├── technology.model.ts
+│   │   │   ├── player-skill.model.ts
+│   │   │   ├── required-skill.model.ts
+│   │   │   ├── job.model.ts
+│   │   │   └── game-state.model.ts
+│   │   ├── services/
+│   │   │   ├── job.service.ts
+│   │   │   └── game.service.ts
+│   │   ├── app-routing.module.ts
+│   │   └── app.module.ts
+│   │
+│   ├── assets/
+│   │   ├── data/
+│   │   │   ├── job-list.json
+│   │   │   └── skill-list.json
+│   │   └── icons/
+│   │
+│   ├── styles/
+│   │   ├── _variables.css
+│   │   ├── _mixins.css
+│   │   └── main.css
+│   │
+│   ├── index.html
+│   ├── main.ts
+│   └── polyfills.ts
+│
+├── .storybook/
+│   ├── main.js
+│   └── preview.js
+│
+├── stories/
+│   ├── job-list.stories.ts
+│   ├── job-details.stories.ts
+│   ├── game-state.stories.ts
+│   └── welcome-screen.stories.ts
+│
+├── angular.json
+├── package.json
+├── tsconfig.json
+└── README.md
+```

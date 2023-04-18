@@ -702,7 +702,7 @@
         },
         {
             "name": "CvViewComponent",
-            "id": "component-CvViewComponent-6609e26eeaf674789e96f94527a5a7de7a8bee714bf08b8d9fe4147a5d477aea8588306336b4f53ce4e001ffbcec1d43c6d549534803abf9a0169df59d0d5183",
+            "id": "component-CvViewComponent-684dd62df5853e89e106c6f233e36f3b385558c0572d03b938bf4452a33b6ef20126d557fd97341e73af822e94983e35c7b0d0c70fe13383bfb1fca5fb361b76",
             "file": "src/app/components/cv-view/cv-view.component.ts",
             "encapsulation": [],
             "entryComponents": [],
@@ -783,7 +783,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 28,
+                    "line": 25,
                     "deprecated": false,
                     "deprecationMessage": ""
                 }
@@ -795,7 +795,7 @@
             "description": "",
             "rawdescription": "\n",
             "type": "component",
-            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport { GameService } from '../../services/game.service';\nimport { Job } from '../../models/job.model';\n\n@Component({\n  selector: 'app-cv-view',\n  templateUrl: './cv-view.component.html',\n  styleUrls: ['./cv-view.component.scss']\n})\nexport class CvViewComponent implements OnInit {\n  name: string;\n  email: string;\n  phone: string;\n  age: number;\n  skills: { name: string, level: number }[];\n  jobs: { company: string, title: string, description: string, startDate: Date, endDate: Date, skills: { name: string, level: number }[] }[];\n\n  constructor(private gameService: GameService) { \n    // Initialize variables\n    this.name = '';\n    this.email = '';\n    this.phone = '';\n    this.age = 0;\n    this.skills = [];\n    this.jobs = [];\n  }\n\n  ngOnInit(): void {\n    // Get player information from game service\n    this.name = this.gameService.getPlayerName();\n    this.email = this.gameService.getPlayerEmail();\n    this.phone = this.gameService.getPlayerPhone();\n    this.age = this.gameService.getPlayerAge();\n    this.skills = this.gameService.getPlayerSkills();\n\n    // Get player job history from game service\n    const jobHistory: Job[] = this.gameService.getPlayerJobHistory();\n    this.jobs = jobHistory.map(job => {\n      return {\n        company: job.company,\n        title: job.title,\n        description: job.description,\n        startDate: job.startDate,\n        endDate: job.endDate,\n        skills: job.skills\n      };\n    });\n  }\n\n}\n",
+            "sourceCode": "import { Component, OnInit } from '@angular/core';\nimport { GameService } from '../../services/game.service';\nimport { Job } from '../../models/job.model';\n\n@Component({\n  selector: 'app-cv-view',\n  templateUrl: './cv-view.component.html',\n  styleUrls: ['./cv-view.component.scss']\n})\nexport class CvViewComponent implements OnInit {\n  name: string;\n  email: string;\n  phone: string;\n  age: number;\n  skills: { name: string, level: number }[];\n  jobs: { company: string, title: string, description: string, startDate: Date, endDate: Date, skills: { name: string, level: number }[] }[];\n\n  constructor(private gameService: GameService) { \n    // Initialize variables\n    this.age = 0;\n    this.skills = [];\n    this.jobs = [];\n  }\n\n  ngOnInit(): void {\n    // Get player information from game service\n    this.age = this.gameService.age$.value;\n    this.skills = this.gameService.skills$.value.map(skill => {\n      return {\n        name: skill.name,\n        level: skill.level\n      };\n    });\n\n    // Get player job history from game service\n    const jobHistory: Job[] = this.gameService.jobs$.value;\n    this.jobs = jobHistory.map(job => {\n      return {\n        company: job.company,\n        title: job.title,\n        description: job.description,\n        startDate: job.startDate,\n        endDate: job.endDate,\n        skills: job.skills\n      };\n    });\n  }\n\n}\n",
             "assetsDirs": [],
             "styleUrlsData": [
                 {

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "python",
+    "name": "Python"
+  },
+  {
+    "id": "javascript",
+    "name": "JavaScript"
+  },
+  {
+    "id": "java",
+    "name": "Java"
+  },
+  {
+    "id": "csharp",
+    "name": "C#"
+  },
+  {
+    "id": "cplusplus",
+    "name": "C++"
+  },
+  {
+    "id": "php",
+    "name": "PHP"
+  },
+  {
+    "id": "ruby",
+    "name": "Ruby"
+  },
+  {
+    "id": "swift",
+    "name": "Swift"
+  },
+  {
+    "id": "kotlin",
+    "name": "Kotlin"
+  },
+  {
+    "id": "golang",
+    "name": "Go"
+  }
+]
