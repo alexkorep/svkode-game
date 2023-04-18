@@ -5,8 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { CvViewComponent } from './components/game-state/game-state.component';
-import { JobDetailsComponent } from './components/job-details/job-details.component';
+import { GameStateComponent } from './components/game-state/game-state.component';
+// import { JobDetailsComponent } from './components/job-details/job-details.component';
 // import { JobListComponent } from './components/job-list/job-list.component';
 // import { NavbarComponent } from './components/navbar/navbar.component';
 // import { WelcomeComponent } from './components/welcome/welcome.component';
@@ -17,8 +17,8 @@ import { JobService } from './services/job.service';
 @NgModule({
   declarations: [
     AppComponent,
-    CvViewComponent,
-    JobDetailsComponent,
+    GameStateComponent,
+    // JobDetailsComponent,
     // JobListComponent,
     // NavbarComponent,
     // WelcomeComponent

@@ -34,8 +34,14 @@ export class GameService {
     this.gameState.currentCalendarDate.setMonth(
       this.gameState.currentCalendarDate.getMonth() + 1
     );
-    // Update player skills based on the current job
-    this.updatePlayerSkills();
+
+    const playerLastJob = this.gameState.playerJobHistory[
+      this.gameState.playerJobHistory.length - 1
+    ];
+    if (playerLastJob) {
+      // Update player skills based on the current job
+      this.updatePlayerSkills(playerLastJob.skillImprovements);
+    }
     // Save the game state to local storage
     this.saveGameState();
   }
@@ -52,9 +58,9 @@ export class GameService {
 
     if (isAccepted) {
       // Add the job to the player's job history
-      this.gameState.jobHistory.push(job);
+      this.gameState.playerJobHistory.push(job);
       // Update player skills based on the new job
-      this.updatePlayerSkills(job.skills);
+      this.updatePlayerSkills(job.skillImprovements);
     }
 
     // Save the game state to local storage and return the result
@@ -62,18 +68,18 @@ export class GameService {
     return isAccepted;
   }
 
-  private updatePlayerSkills(jobSkills?: PlayerSkill[]): void {
+  private updatePlayerSkills(jobSkills: string[]): void {
     if (jobSkills) {
       // Update player skills based on the job skills
       jobSkills.forEach((jobSkill) => {
         const playerSkill = this.gameState.playerSkills.find(
-          (skill) => skill.technologyId === jobSkill.technologyId
+          (skill) => skill.technologyId === jobSkill
         );
         if (playerSkill) {
-          playerSkill.months += 1;
+          playerSkill.monthsExperience += 1;
         } else {
           this.gameState.playerSkills.push(
-            new PlayerSkill(jobSkill.technologyId, 1)
+            new PlayerSkill(jobSkill, 1)
           );
         }
       });
@@ -90,7 +96,7 @@ export class GameService {
   }
 
   private calculatePlayerAge(): number {
-    const currentDate = this.gameState.currentDate;
+    const currentDate = this.gameState.currentCalendarDate;
     const birthYear = currentDate.getFullYear() - 21;
     return currentDate.getFullYear() - birthYear;
   }

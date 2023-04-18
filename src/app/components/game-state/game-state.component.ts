@@ -5,7 +5,7 @@ import { GameState } from '../../models/game-state.model';
 @Component({
   selector: 'app-game-state',
   templateUrl: './game-state.component.html',
-  styleUrls: ['./game-state.component.css']
+  styleUrls: ['./game-state.component.scss']
 })
 export class GameStateComponent implements OnInit {
   gameState?: GameState;
@@ -13,6 +13,6 @@ export class GameStateComponent implements OnInit {
   constructor(private gameService: GameService) { }
 
   ngOnInit(): void {
-    this.gameState = this.gameService.getGameState();
+    this.gameState = this.gameService.getCurrentGameState();
   }
 }
