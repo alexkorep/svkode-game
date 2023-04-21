@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/angular';
-import { GameStateComponent } from '../app/components/game-state/game-state.component';
-import { GameService } from '../app/services/game.service';
-import { GameState } from '../app/models/game-state.model';
+import { GameStateComponent } from './game-state.component';
+import { GameService } from '../../services/game.service';
+import { GameState } from '../../models/game-state.model';
 
 const mockGameState: GameState = new GameState([], new Date(), [], []);
 
