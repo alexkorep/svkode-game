@@ -177,3 +177,76 @@ my-app/
 ├── tsconfig.json
 └── README.md
 ```
+
+# src/app/models/technology.model.d.ts
+```
+declare class Technology {
+  id: string;
+  name: string;
+
+  constructor(id: string, name: string);
+}
+
+export = Technology;
+```
+# src/app/models/required-skill.model.d.ts
+```
+export declare class RequiredSkill {
+  technologyId: string;
+  months: number;
+  priority: number;
+
+  constructor(technologyId: string, months: number, priority: number);
+}
+```
+# src/app/models/player-skill.model.d.ts
+```
+export declare class PlayerSkill {
+  technologyId: string;
+  monthsExperience: number;
+
+  constructor(technologyId: string, monthsExperience: number);
+}
+```
+# src/app/models/job.model.d.ts
+```
+import { RequiredSkill } from './required-skill.model';
+
+export class Job {
+  title: string;
+  company: string;
+  description: string;
+  basicProbability: number;
+  requiredSkills: RequiredSkill[];
+  skillImprovements: string[];
+
+  constructor(
+    title: string,
+    company: string,
+    description: string,
+    basicProbability: number,
+    requiredSkills: RequiredSkill[],
+    skillImprovements: string[]
+  );
+
+}
+``` 
+# src/app/models/game-state.model.d.ts
+```
+import { PlayerSkill } from './player-skill.model';
+import { Job } from './job.model';
+
+export declare class GameState {
+  playerSkills: PlayerSkill[];
+  currentCalendarDate: Date;
+  availableJobs: Job[];
+  playerJobHistory: Job[];
+
+  constructor(
+    playerSkills: PlayerSkill[],
+    currentCalendarDate: Date,
+    availableJobs: Job[],
+    playerJobHistory: Job[]
+  );
+}
+``` 
