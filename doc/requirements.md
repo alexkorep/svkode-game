@@ -144,6 +144,7 @@ my-app/
 │   │   ├── services/
 │   │   │   ├── job.service.ts
 │   │   │   └── game.service.ts
+│   │   ├── app.component.ts
 │   │   ├── app-routing.module.ts
 │   │   └── app.module.ts
 │   │

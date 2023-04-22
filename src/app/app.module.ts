@@ -1,37 +1,25 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
-import { GameStateComponent } from './components/game-state/game-state.component';
-// import { JobDetailsComponent } from './components/job-details/job-details.component';
 // import { JobListComponent } from './components/job-list/job-list.component';
-// import { NavbarComponent } from './components/navbar/navbar.component';
-// import { WelcomeComponent } from './components/welcome/welcome.component';
-
-import { GameService } from './services/game.service';
-import { JobService } from './services/job.service';
+// import { JobDetailsComponent } from './components/job-details/job-details.component';
+import { GameStateComponent } from './components/game-state/game-state.component';
+import { WelcomeScreenComponent } from './components/welcome-screen/welcome-screen.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    GameStateComponent,
-    // JobDetailsComponent,
     // JobListComponent,
-    // NavbarComponent,
-    // WelcomeComponent
+    // JobDetailsComponent,
+    GameStateComponent,
+    WelcomeScreenComponent
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
     AppRoutingModule
   ],
-  providers: [
-    GameService,
-    JobService
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
