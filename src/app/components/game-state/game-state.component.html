@@ -1,17 +1,17 @@
 <div class="game-state">
   <h1>Player CV</h1>
-  <p>Date: {{ gameState.currentDate | date:'longDate' }}</p>
-  <p>Age: {{ gameState.playerAge }} years</p>
+  <p>Date: {{ gameState?.currentCalendarDate | date:'longDate' }}</p>
+  <p>Age: {{ 'TBD' }} years</p>
   <h2>Skills</h2>
   <ul>
-    <li *ngFor="let skill of gameState.playerSkills">
-      {{ skill.technology.name }}: {{ skill.months }} months
+    <li *ngFor="let skill of gameState?.playerSkills">
+      {{ skill.technologyId }}: {{ skill.monthsExperience }} months
     </li>
   </ul>
   <h2>Job History</h2>
   <ol>
-    <li *ngFor="let job of gameState.jobHistory">
-      {{ job.title }} at {{ job.company }} ({{ job.startDate | date:'MMM yyyy' }} - {{ job.endDate | date:'MMM yyyy' }})
+    <li *ngFor="let job of gameState?.playerJobHistory">
+      {{ job.title }} at {{ job.company }}
     </li>
   </ol>
 </div>
